@@ -1,0 +1,90 @@
+// Importing the ArrayList class, Scanner class and List interface from the java.util package.
+import java.util.ArrayList; 
+import java.util.List; 
+import java.util.Scanner; 
+
+// Defining a class named Item and declaring private instance variables of types String, double and int.
+class Item { 
+    private String name;  
+    private double price; 
+    private int quantity; 
+    private String type; 
+    private double salesTax; 
+    private double finalPrice; 
+
+// Constructor for the Item class with parameters.
+    public Item(String name, double price, int quantity, String type) { 
+
+// Assigning the value of the item name, price, quantity and type parameters to the name instance variables.
+        this.name = name; 
+        this.price = price; 
+        this.quantity = quantity; 
+        this.type = type; 
+    }
+
+// Method to calculate the sales tax based on the item type.
+    public void calculateTax() { 
+
+// Checking if the type is equal to "Raw" (case insensitive) and calculating the sales tax for raw items.
+        if (type.equalsIgnoreCase("Raw")) { 
+            salesTax = 0.155 * price; 
+
+ // Checking if the type is equal to "Manufactured" (case insensitive) and calculating the sales tax for manufactured items.
+        } else if (type.equalsIgnoreCase("Manufactured")) { 
+            salesTax = 0.205 * price; 
+ 
+        } else { 
+            System.out.println("Invalid item type: " + type); // Printing an error message for an invalid item type.
+            return; // Exiting the method.
+        }
+        finalPrice = price + salesTax; 				 // Calculating the final price by adding the sales tax to the original price.
+    }
+
+// Method to display the details of an item.
+    public void displayItemDetails() { 
+        System.out.println("Item Name: " + name); 
+        System.out.println("Item Price: " + price); 
+        System.out.println("Sales Tax Liability per Item: " + salesTax); 
+        System.out.println("Final Price: " + finalPrice); 
+        System.out.println(); 
+    }
+}
+
+// Defining a public class named ItemDetailsProgram.
+public class ItemDetailsProgram { 
+    public static void main(String[] args) { 
+        Scanner scanner = new Scanner(System.in); 		 // Creating a Scanner object to read user input from the console.
+        List<Item> items = new ArrayList<>(); 			// Creating an ArrayList named items to store Item objects.
+
+// Starting a do-while loop to repeatedly ask for item details.
+        do { 
+
+// Prompting the user to enter the item name, price, quantity, and type and reading them from the user.
+            System.out.print("Item Name: "); 
+            String name = scanner.nextLine(); 
+
+            System.out.print("Item Price: "); 
+            double price = Double.parseDouble(scanner.nextLine()); 	// Reading the item price from the user and converting it to double.
+
+            System.out.print("Item Quantity: "); 
+            int quantity = Integer.parseInt(scanner.nextLine()); 		// Reading the item quantity from the user and converting it to int.
+
+            System.out.print("Item Type (Raw/Manufactured): "); 
+            String type = scanner.nextLine(); 
+
+            Item item = new Item(name, price, quantity, type); 		// Creating a new Item object with the entered details.
+            item.calculateTax(); 							// Calculating the tax for the item.
+            items.add(item); 								// Adding the item to the list of items.
+
+// Prompting the user if they want to enter details of another item and continuing the loop if the user enters "y" (case insensitive).
+            System.out.print("Do you want to enter details of any other item (y/n): "); 
+        } while (scanner.nextLine().equalsIgnoreCase("y")); 		
+
+        System.out.println("\nItem Details:"); 					// Printing a heading for the item details.
+
+// Iterating over the items in the list.
+        for (Item item : items) { 
+            item.displayItemDetails(); 						// Displaying the details of each item.
+        }
+    }
+}
